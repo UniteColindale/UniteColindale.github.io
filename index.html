@@ -1,0 +1,63 @@
+<html>
+	<title>Annual leave to pay calculator</title>
+	<head>
+		<style>
+			html{
+				font-family: sans-serif;
+			}
+			td{
+				padding: 5px;
+			}
+			input{
+				padding: 5px;
+			}
+			#thrownAway{
+				font-size: xxx-large;
+				background: #f7e1c1;
+				padding: 20px;
+				text-align: center;
+			}
+			#taTable th{
+				background: #f6e1c1;
+				color: black;
+				padding: 4px;
+			}
+			#taTable{
+				border-collapse: collapse;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Annual leave to pay calculator</h1>
+		<table>
+		<tr>
+		<td>Days of annual leave left</td><td><input oninput="doThing()" type="number" id="daysLeft"/></td>
+		</tr>
+		<tr>
+		<td>Monthly salary</td><td><input oninput="doThing()" type="number" id="salary"/></td>
+		</tr>
+		<table>
+		<br>
+		<table id="taTable"><tr><th>How much is that worth?</th></tr>
+		<tr><td id="thrownAway"></td></tr></table>
+	</body>
+	<script>
+		function doThing(){
+			workingDaysApr21ToMar22 = 253
+			daysLeft = parseInt(document.getElementById("daysLeft").value)
+			monthlySalary = parseInt(document.getElementById("salary").value)
+			dailySalary = monthlySalary * 12 / workingDaysApr21ToMar22
+			if (daysLeft){
+				if (salary){
+					whatsItWorth = (daysLeft*dailySalary).toFixed(2)
+					if (!isNaN(whatsItWorth)){
+						document.getElementById("thrownAway").innerText = "£".concat(whatsItWorth)
+					}
+					else{
+						document.getElementById("thrownAway").innerText = ""
+					}
+				}
+			}
+		}
+	</script>
+</html>
