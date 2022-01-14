@@ -1,63 +1,265 @@
 <html>
-	<title>Annual leave to pay calculator</title>
-	<head>
-		<style>
-			html{
-				font-family: sans-serif;
+<title>What's your annual leave worth?</title>
+
+<head>
+	<style>
+		html {
+			font-family: sans-serif;
+		}
+
+		body {
+			margin: 0 auto;
+			background: #ededed;
+		}
+
+		.header {
+			background: #017890;
+			color: white;
+			font-weight: bold;
+			padding: 12px 25px;
+			text-align: center;
+			font-size: 2em;
+		}
+
+		td {
+			padding: 10px;
+			text-align: center;
+		}
+
+		tr:nth-of-type(even) td {
+			padding-bottom: 20px;
+		}
+
+		input {
+			padding: 5px;
+			border-radius: 1em;
+		}
+
+		#thrownAway {
+			font-size: xxx-large;
+			background: #1f4b6b;
+			padding: 20px;
+			text-align: center;
+			color: white;
+		}
+
+		.card {
+			background: white;
+			border: 1px solid rgba(79, 79, 79, .25);
+			max-width: 500px;
+			min-width: 500px;
+			margin: 0 auto;
+			box-shadow: 5px 5px 5px lightgray;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+
+		#calcTable {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.blueBg {
+			background: #1f4b6b;
+			color: white;
+		}
+
+		.lightBlueFg {
+			color: #0093b0;
+			font-weight: bold;
+			font-size: 25px;
+		}
+
+		.helpCircle {
+			display: inline-block;
+			background: #204b6a;
+			border-radius: 100%;
+			width: 1em;
+			height: 1em;
+			color: white;
+			padding: 2px;
+			margin-left: 3px;
+			transition: background 0.2s;
+			font-size: medium;
+			font-weight: normal;
+		}
+
+		.helpCircle:hover {
+			background: #de0000;
+			transition: background 0.2s;
+		}
+
+		.tooltip {
+			position: relative;
+			display: inline-block;
+			border-bottom: 1px dotted black;
+		}
+
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 1;
+			top: -5px;
+			left: 110%;
+		}
+
+		.tooltip .tooltiptext::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: 100%;
+			margin-top: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: transparent black transparent transparent;
+		}
+
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+		}
+
+		.subHeader {
+			background: white;
+			box-shadow: 5px 5px 5px lightgray;
+			margin-bottom: 30px;
+			padding: 10px;
+			text-align: center;
+			color: #204b6a;
+		}
+
+		#surveyButton {
+			text-align: center;
+			padding: 20px;
+			background: #0093b0;
+			display: inline-block;
+			border-radius: 50px;
+			margin-bottom: 30px;
+			transition: background 0.2s;
+		}
+
+		#surveyButton:hover {
+			background: #de0000;
+			transition: background 0.2s;
+		}
+
+		a {
+			color: white;
+			text-decoration: none;
+			font-size: larger;
+		}
+
+		a:hover {
+			color: white;
+		}
+
+		a:visited {
+			color: white
+		}
+
+		#surveyCard {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">What's your annual leave worth?</div>
+	<div class="subHeader">
+		<p>Have you been unable to take your annual leave this past year?<br>
+			Your Unite the Union branch is fighting to make sure you don't lose out!<br>
+			<br>Use this calculator to find out what your remaining leave would be worth if it were paid at your normal
+			rate.
+		</p>
+	</div>
+	<div class="card">
+		<table id="calcTable">
+			<tr>
+				<td id="daysHoursHeading" class="lightBlueFg">Days of annual leave left<div class="helpCircle tooltip">
+						?<span class="tooltiptext">This calculator assumes that 7.5 hours of annual leave is 1
+							day</span></div>
+				</td>
+			</tr>
+			<tr>
+				<td><input oninput="doThing()" type="number" id="daysLeft" step="any" />
+					<p><button onclick="toggleDaysHours()" id="daysHoursToggle" class="days">Switch to hours</button>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="lightBlueFg">Monthly salary (£)<div class="helpCircle tooltip">?<span
+							class="tooltiptext">This
+							can be found on your payslip or on a bank statement</span></div>
+				</td>
+			</tr>
+			<tr>
+				<td><input oninput="doThing()" type="number" id="salary" step=".01" />
+
+				</td>
+			</tr>
+			<tr class="blueBg">
+				<td>How much is that worth?</td>
+			</tr>
+			<tr>
+				<td id="thrownAway"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="card" id="surveyCard">
+		<div style="padding: 20px; text-align: left">
+			<p>We're running a quick survey to find out the impact of untaken annual leave on our colleagues.</p>
+			<p>If you have a minute, please follow the link below and complete the questions</p>
+		</div>
+		<div><a id="surveyButton"
+				href="https://docs.google.com/forms/d/e/1FAIpQLSdpVzyzGDQxnsNQtzL9CNwXwexc1QFkltpTEHyMkmQG8gPexA/viewform?usp=sf_link"
+				target="_blank" title="Annual leave survey - Google Forms">
+				Link to survey
+			</a></div>
+	</div>
+</body>
+<script>
+	function doThing() {
+		workingDaysApr21ToMar22 = 253
+		daysLeft = parseFloat(document.getElementById("daysLeft").value)
+		if (document.getElementById("daysHoursToggle").classList.value == "hours") {
+			daysLeft = daysLeft / 8.5
+		}
+		monthlySalary = parseFloat(document.getElementById("salary").value)
+		dailySalary = monthlySalary * 12 / workingDaysApr21ToMar22
+		if (daysLeft && salary) {
+			whatsItWorth = (daysLeft * dailySalary).toFixed(2)
+			if (!isNaN(whatsItWorth)) {
+				document.getElementById("thrownAway").innerText = "£".concat(whatsItWorth)
+				document.getElementById("surveyCard").style.display = "block";
 			}
-			td{
-				padding: 5px;
-			}
-			input{
-				padding: 5px;
-			}
-			#thrownAway{
-				font-size: xxx-large;
-				background: #f7e1c1;
-				padding: 20px;
-				text-align: center;
-			}
-			#taTable th{
-				background: #f6e1c1;
-				color: black;
-				padding: 4px;
-			}
-			#taTable{
-				border-collapse: collapse;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Annual leave to pay calculator</h1>
-		<table>
-		<tr>
-		<td>Days of annual leave left</td><td><input oninput="doThing()" type="number" id="daysLeft"/></td>
-		</tr>
-		<tr>
-		<td>Monthly salary</td><td><input oninput="doThing()" type="number" id="salary"/></td>
-		</tr>
-		<table>
-		<br>
-		<table id="taTable"><tr><th>How much is that worth?</th></tr>
-		<tr><td id="thrownAway"></td></tr></table>
-	</body>
-	<script>
-		function doThing(){
-			workingDaysApr21ToMar22 = 253
-			daysLeft = parseInt(document.getElementById("daysLeft").value)
-			monthlySalary = parseInt(document.getElementById("salary").value)
-			dailySalary = monthlySalary * 12 / workingDaysApr21ToMar22
-			if (daysLeft){
-				if (salary){
-					whatsItWorth = (daysLeft*dailySalary).toFixed(2)
-					if (!isNaN(whatsItWorth)){
-						document.getElementById("thrownAway").innerText = "£".concat(whatsItWorth)
-					}
-					else{
-						document.getElementById("thrownAway").innerText = ""
-					}
-				}
+			else {
+				document.getElementById("thrownAway").innerText = ""
 			}
 		}
-	</script>
+		else {
+			document.getElementById("thrownAway").innerText = ""
+		}
+	}
+	function toggleDaysHours() {
+		daysHours = document.getElementById("daysLeft")
+		currentStatus = document.getElementById("daysHoursToggle").classList.value
+		if (currentStatus == "days") {
+			document.getElementById("daysHoursToggle").classList.value = "hours"
+			document.getElementById("daysHoursHeading").innerHTML = document.getElementById("daysHoursHeading").innerHTML.replace("Days", "Hours")
+			document.getElementById("daysHoursToggle").innerHTML = document.getElementById("daysHoursToggle").innerHTML.replace("hours", "days")
+		}
+		if (currentStatus == "hours") {
+			document.getElementById("daysHoursToggle").classList.value = "days"
+			document.getElementById("daysHoursHeading").innerHTML = document.getElementById("daysHoursHeading").innerHTML.replace("Hours", "Days")
+			document.getElementById("daysHoursToggle").innerHTML = document.getElementById("daysHoursToggle").innerHTML.replace("days", "hours")
+		}
+		doThing()
+	}
+</script>
+
 </html>
