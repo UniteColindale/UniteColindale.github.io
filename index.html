@@ -163,7 +163,7 @@
 		}
 
 		#surveyCard {
-			display: none;
+			display: block;
 		}
 	</style>
 </head>
@@ -235,7 +235,7 @@
 			whatsItWorth = (daysLeft * dailySalary).toFixed(2)
 			if (!isNaN(whatsItWorth)) {
 				document.getElementById("thrownAway").innerText = "£".concat(whatsItWorth)
-				document.getElementById("surveyCard").style.display = "block";
+				//document.getElementById("surveyCard").style.display = "block";
 			}
 			else {
 				document.getElementById("thrownAway").innerText = ""
