@@ -332,9 +332,18 @@
 				</div>
 				`
 
+			var how_many_years 
+			
+			if (data["Years until pay progression"].split(" ").length > 1){
+				how_many_years = parseInt(data["Years until pay progression"].split(" ").at(0)) + parseInt(data["Years until pay progression"].split(" ").at(-1))
+			}
+			else{
+				how_many_years = data["Years until pay progression"]
+			}
+
 			var what_is_pay_progression = `
 				<div class='padded_cell'>
-					Pay progression at AfC ${data["AfC band"]} happens automatically every <div class='figure'>${data["Years until pay progression"]} years</div> reaching a maximum of <div class='figure'>${currencyformatter.format(data["Top step point"])}</div>
+					Pay progression at AfC ${data["AfC band"]} happens automatically, reaching the maximum of <div class='figure'>${currencyformatter.format(data["Top step point"])}</div> after <div class='figure'>${how_many_years} years</div>.
 					<br><br>
 					<table id='pay_prog_table'>
 						<tr><th>After</th><th>AfC is worth</th></tr>
