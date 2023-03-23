@@ -334,7 +334,7 @@
 
 			var how_many_years 
 			
-			if (data["Years until pay progression"].split(" ").length > 1){
+			if (typeof data["Years until pay progression"] == "string"){
 				how_many_years = parseInt(data["Years until pay progression"].split(" ").at(0)) + parseInt(data["Years until pay progression"].split(" ").at(-1))
 			}
 			else{
