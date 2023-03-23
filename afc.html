@@ -1,0 +1,345 @@
+<html>
+<title>Agenda for Change pay calculator</title>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="res/data.js"></script>
+	<style>
+		html {
+			font-family: sans-serif;
+		}
+
+		body {
+			margin: 0 auto;
+			background: #ededed;
+			line-height: 1.3em;
+		}
+
+		.header {
+			background: #017890;
+			color: white;
+			font-weight: bold;
+			padding: 12px 25px;
+			text-align: center;
+			font-size: 2em;
+			line-height: 1.5em;
+		}
+
+		td {
+			padding: 10px;
+			text-align: center;
+		}
+
+		input {
+			padding: 5px;
+			border-radius: 1em;
+		}
+
+		#thrownAway {
+			font-size: xxx-large;
+			background: #1f4b6b;
+			padding: 20px;
+			text-align: center;
+			color: white;
+		}
+
+		.card {
+			background: white;
+			border: 1px solid rgba(79, 79, 79, .25);
+			max-width: 500px;
+			margin: 0 auto;
+			box-shadow: 5px 5px 5px lightgray;
+			margin-bottom: 30px;
+			text-align: center;
+		}
+
+		#calcTable {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.blueBg {
+			background: #1f4b6b;
+			color: white;
+		}
+
+		.lightBlueFg {
+			color: #0093b0;
+			font-weight: bold;
+			font-size: 25px;
+		}
+
+		.helpCircle {
+			display: inline-block;
+			background: #204b6a;
+			border-radius: 100%;
+			width: 1em;
+			height: 1em;
+			color: white;
+			padding: 2px;
+			margin-left: 3px;
+			transition: background 0.2s;
+			font-size: medium;
+			font-weight: normal;
+		}
+
+		.helpCircle:hover {
+			background: #de0000;
+			transition: background 0.2s;
+		}
+
+		.tooltip {
+			position: relative;
+			display: inline-block;
+			border-bottom: 1px dotted black;
+		}
+
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 1;
+			top: -5px;
+			left: 110%;
+		}
+
+		.tooltip .tooltiptext::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			right: 100%;
+			margin-top: -5px;
+			border-width: 5px;
+			border-style: solid;
+			border-color: transparent black transparent transparent;
+		}
+
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+		}
+
+		.subHeader {
+			background: white;
+			box-shadow: 5px 5px 5px lightgray;
+			margin-bottom: 30px;
+			padding: 10px;
+			text-align: center;
+			color: #204b6a;
+		}
+
+		button {
+			text-align: center;
+			padding: 1em;
+			background: white;
+			display: inline-block;
+			border-radius: 0.5em;
+			margin-bottom: 30px;
+			transition: background 0.2s;
+			color: black;
+		}
+
+		button.selected {
+			background: #0093b0;
+			color: white;
+		}
+
+		button:hover {
+			background: #ace7f3;
+			transition: background 0.2s;
+		}
+
+		a {
+			color: white;
+			text-decoration: none;
+			font-size: larger;
+		}
+
+		a:hover {
+			color: white;
+		}
+
+		a:visited {
+			color: white
+		}
+
+		.cardHeader {
+			padding: 20px;
+			line-height: 1.4em;
+		}
+		#pay_prog_table{
+			margin: 0 auto;
+			border-collapse: collapse;
+			box-shadow: 0px 0px 16px lightgray;
+		}
+		#pay_prog_table tr{
+			border-bottom: 1px solid #204b6a;
+		}
+
+		#pay_prog_table tr:last-child, #pay_prog_table tr:first-child{
+			border-bottom: unset;
+		}
+
+		#pay_prog_table th{
+			background: #1f4b6b;
+			color: white;
+			padding: 1em;
+			border: white;
+		}
+		.figure{
+			background: #1f4b6b;
+			border-radius: 1em;
+			padding-left: 0.5em;
+			padding-right: 0.5em;
+			white-space: nowrap;
+			display: inline;
+			color: white;
+		}
+		.padded_cell{
+			padding: 1em;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">AfC Comparison Calculator</div>
+	<div class="subHeader">
+		<p>How do Civil Service terms and conditions compare with<br>NHS Agenda for Change terms and conditions?<br>
+			<br>Use this calculator to find out!
+		</p>
+	</div>
+	<div class="card">
+		<table id="calcTable">
+			<tr>
+				<td class="lightBlueFg cardHeader">I'm based at</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						<button onclick="set_base(this.innerText); deselect_by_class('base'); this.classList.add('selected')" class="base">Colindale</button>
+						<button onclick="set_base(this.innerText); deselect_by_class('base'); this.classList.add('selected')" class="base">Harlow</button>
+						<button onclick="set_base(this.innerText); deselect_by_class('base'); this.classList.add('selected')" class="base">Outside Greater London</button>
+						<button onclick="set_base(this.innerText); deselect_by_class('base'); this.classList.add('selected')" class="base">Nobel House/Canary Wharf</button>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="lightBlueFg cardHeader">My grade is</td>
+			</tr>
+			<tr>
+				<td>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">AA</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">AO</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">EO</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">HEO</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">SEO</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">Grade 7</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">Grade 7 (upper)</button>
+					<button onclick="set_grade(this.innerText); deselect_by_class('grade'); this.classList.add('selected')" class="grade">Grade 6</button>
+				</td>
+			</tr>
+			<tr class="blueBg">
+				<td>Your NHS equivalent band is</td>
+			</tr>
+			<tr>
+				<td id="band_data" class="blueBg"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="card">
+		<div class="lightBlueFg cardHeader"">How does that compare?</div>
+		<div id="how_does_that_compare"></div>
+		<p></p>
+	</div>
+	<div class="card">
+		<div class="lightBlueFg cardHeader"">What would my pay progression look like under AfC?</div>
+		<div id="what_is_pay_progression"></div>
+		<p></p>
+	</div>
+</body>
+<script>
+	'use strict'
+
+	function set_base(input_base) {
+		base = input_base
+	}
+
+	function set_grade(input_grade) {
+		grade = input_grade
+	}
+
+	function get_band_data() {
+		var key = base + "_" + grade
+		return band_data[key]
+	}
+
+	function deselect_by_class(input_class) {
+		for (var i = 0; i < document.getElementsByClassName(input_class).length; i++) {
+			if (document.getElementsByClassName(input_class)[i].classList.contains("selected")) {
+				document.getElementsByClassName(input_class)[i].classList.remove("selected")
+			}
+		}
+		display_band_data();
+	}
+
+	// Create our number formatter.
+	const currencyformatter = new Intl.NumberFormat('en-GB', {
+		style: 'currency',
+		currency: 'GBP',
+
+		// These options are needed to round to whole numbers if that's what you want.
+		minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+		maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+	});
+
+	function display_band_data() {
+		var data = get_band_data()
+
+		if (!data) {
+			document.getElementById("band_data").innerHTML = ""
+		}
+
+		else {
+			var cs_min = currencyformatter.format(data["Minimum"])
+			var afc_min = currencyformatter.format(data["Entry step point"])
+			var entry_diff = data["Difference in entry pay"]
+			var how_does_that_compare = `
+				<div class='padded_cell'>
+					Jobs at ${grade} grade in ${base} start at <div class='figure'>${cs_min}</div><br>
+					If you were on AfC ${data["AfC band"]} you'd start at <div class='figure'>${afc_min}</div> instead<br>
+					<br>
+					<div id='theDifference'>That's <div class='figure'>${currencyformatter.format(Math.abs(entry_diff))}</div> ${entry_diff < 0 ? "more" : "less"}</div>
+					<br>
+					However, AfC has automatic pay progression;<br>CS terms and conditions do not.<br><br>
+					In other words - under CS terms and conditions, if you start at the bottom of a band, you stay at the bottom of the band.
+				</div>
+				`
+
+			var what_is_pay_progression = `
+				<div class='padded_cell'>
+					Pay progression at AfC ${data["AfC band"]} happens automatically every <div class='figure'>${data["Years until pay progression"]} years</div> reaching a maximum of <div class='figure'>${currencyformatter.format(data["Top step point"])}</div>
+					<br><br>
+					<table id='pay_prog_table'>
+						<tr><th>After</th><th>AfC is worth</th></tr>
+						<tr><td>2 years</td><td>${currencyformatter.format(Math.abs(data["Difference after 2 years"]))} ${data["Difference after 2 years"] < 0 ? "more" : "less"}</td></tr>
+						<tr><td>3 years</td><td>${currencyformatter.format(Math.abs(data["Difference after 3 years"]))} ${data["Difference after 3 years"] < 0 ? "more" : "less"}</td></tr>
+						<tr><td>5 years</td><td>${currencyformatter.format(Math.abs(data["Difference after 5 years"]))} ${data["Difference after 5 years"] < 0 ? "more" : "less"}</td></tr>
+					</table>
+				</div>
+				`
+
+			document.getElementById("band_data").innerHTML = "<span style='font-size: x-large'>" + data["AfC band"] + "</span><br>" + data["AfC region"] + "<br><br>"
+			document.getElementById("how_does_that_compare").innerHTML = how_does_that_compare
+			document.getElementById("what_is_pay_progression").innerHTML = what_is_pay_progression
+		}
+	}
+
+	var base
+	var grade
+</script>
+
+</html>
