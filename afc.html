@@ -4,6 +4,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="res/data.js"></script>
+	<link rel="icon" href="favicon.svg" />
 	<style>
 		html {
 			font-family: sans-serif;
@@ -151,7 +152,7 @@
 		}
 
 		button:hover {
-			background: #ace7f3;
+			background: #5cc2d7;
 			transition: background 0.2s;
 		}
 
@@ -204,10 +205,14 @@
 		.padded_cell{
 			padding: 1em;
 		}
+		.hide_cards .hideable_card{
+			display: none;
+		}
+
 	</style>
 </head>
 
-<body>
+<body class="hide_cards">
 	<div class="header">AfC Comparison Calculator</div>
 	<div class="subHeader">
 		<p>How do Civil Service terms and conditions compare with<br>NHS Agenda for Change terms and conditions?<br>
@@ -245,19 +250,19 @@
 				</td>
 			</tr>
 			<tr class="blueBg">
-				<td>Your NHS equivalent band is</td>
+				<td><br>Your NHS equivalent band is</td>
 			</tr>
 			<tr>
 				<td id="band_data" class="blueBg"></td>
 			</tr>
 		</table>
 	</div>
-	<div class="card">
+	<div class="card hideable_card">
 		<div class="lightBlueFg cardHeader"">How does that compare?</div>
 		<div id="how_does_that_compare"></div>
 		<p></p>
 	</div>
-	<div class="card">
+	<div class="card hideable_card">
 		<div class="lightBlueFg cardHeader"">What would my pay progression look like under AfC?</div>
 		<div id="what_is_pay_progression"></div>
 		<p></p>
@@ -265,6 +270,12 @@
 </body>
 <script>
 	'use strict'
+
+	function show_all_cards(){
+		if (document.getElementsByClassName("hide_cards").length){
+			document.getElementsByClassName("hide_cards")[0].classList.remove("hide_cards")
+		}
+	}
 
 	function set_base(input_base) {
 		base = input_base
@@ -306,18 +317,18 @@
 		}
 
 		else {
+			show_all_cards();
 			var cs_min = currencyformatter.format(data["Minimum"])
 			var afc_min = currencyformatter.format(data["Entry step point"])
 			var entry_diff = data["Difference in entry pay"]
 			var how_does_that_compare = `
 				<div class='padded_cell'>
-					Jobs at ${grade} grade in ${base} start at <div class='figure'>${cs_min}</div><br>
+					Jobs at ${grade} grade in ${base} start at <div class='figure'>${cs_min}</div><br><br>
 					If you were on AfC ${data["AfC band"]} you'd start at <div class='figure'>${afc_min}</div> instead<br>
 					<br>
 					<div id='theDifference'>That's <div class='figure'>${currencyformatter.format(Math.abs(entry_diff))}</div> ${entry_diff < 0 ? "more" : "less"}</div>
 					<br>
-					However, AfC has automatic pay progression;<br>CS terms and conditions do not.<br><br>
-					In other words - under CS terms and conditions, if you start at the bottom of a band, you stay at the bottom of the band.
+					Under CS terms and conditions, if you start at the bottom of a band, you stay at the bottom of the band.<br><br>AfC has automatic pay progression.<br>
 				</div>
 				`
 
